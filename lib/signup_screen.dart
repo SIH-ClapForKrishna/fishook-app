@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'login_screen.dart';
+import 'main.dart';
 
 
 class SignupScreen extends StatelessWidget {
@@ -88,29 +92,44 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: TextField(
-                obscureText: true,
-                controller: retypePasswordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Retype Password',
-                ),
-              ),
-            ),
-            Container(
                 height: 60,
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: ElevatedButton(
+                  onPressed: signUp,
                   child: const Text('SignUp'),
+                )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('Already Have An Account?',style: TextStyle(fontSize: 20)),
+                TextButton(
+                  child: const Text(
+                    'Log In',
+                    style: TextStyle(fontSize: 20),
+                  ),
                   onPressed: () {
-                    print('You have succesfully signed up!');
-                    print(emailController.text);
-                    print(passwordController.text);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    );
+                    //signup screen
                   },
                 )
+              ],
             ),
           ],
         ));
+  }
+  Future signUp() async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+    RestartWidget.restartApp(context);
   }
 }
