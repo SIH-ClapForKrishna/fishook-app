@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1080893081827",
+    "project_id": "sih-clapforkrishna-c1752",
+    "storage_bucket": "sih-clapforkrishna-c1752.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080893081827:android:0ae3236b9783029336ddd6",
+        "android_client_info": {
+          "package_name": "com.DragonDare.sih_fishook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080893081827-4st64vq34fdtm1rjarj0rresm0c6feod.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM-BDFMhzapZHGXWZ42__eSERXg1ls0TM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080893081827-4st64vq34fdtm1rjarj0rresm0c6feod.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -88,6 +88,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('Does not have account?'),
                 TextButton(
@@ -100,7 +101,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   },
                 )
               ],
-              mainAxisAlignment: MainAxisAlignment.center,
             ),
           ],
         ));
