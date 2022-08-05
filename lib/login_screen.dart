@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:sih_fishook/signup_screen.dart';
+
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -37,7 +41,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                     children: <Widget>[
-                Image.asset('assets/FisHook-logos_transparent.png', width: 300, height: 300)])),
+                Image.asset('assets/FisHook-logos_transparent.png', width: 250, height: 250)])),
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(0),
@@ -90,6 +94,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SignupScreen()),
+                    );
                     //signup screen
                   },
                 )
@@ -97,5 +105,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
           ],
         ));
+  }
+  Future signIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: nameController.text.trim(),
+      password: passwordController.text.trim(),
+    );
   }
 }
