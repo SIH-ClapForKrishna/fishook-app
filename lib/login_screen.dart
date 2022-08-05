@@ -35,20 +35,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
-                child: const Text(
-                  'FisHook',
-                  style: TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 30),
-                )),
+                child: Column(
+                    children: <Widget>[
+                Image.asset('assets/FisHook-logos_transparent.png', width: 300, height: 300)])),
             Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child: const Text(
-                  'Sign in',
-                  style: TextStyle(fontSize: 20),
-                )),
+                padding: const EdgeInsets.all(0),
+                ),
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
@@ -74,7 +67,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               onPressed: () {
                 //forgot password screen
               },
-              child: const Text('Forgot Password',),
+              child: const Text('Forgot Password', style: TextStyle(fontSize: 18)),
             ),
             Container(
                 height: 50,
@@ -90,10 +83,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('Does not have account?'),
+                const Text('Create Account?',style: TextStyle(fontSize: 20)),
                 TextButton(
                   child: const Text(
-                    'Sign in',
+                    'Sign up',
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {

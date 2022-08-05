@@ -30,7 +30,7 @@ class _LoginAnimationsState extends State<LoginAnimations> with SingleTickerProv
   @override
   Widget build (BuildContext context) {
     return Scaffold (
-      body: Center(child: Lottie.network('https://assets1.lottiefiles.com/packages/lf20_6wvpi7jz.json', controller: _controller,
+      body: Center(child: Lottie.asset('assets/95019-fishing-bye-bye.json', controller: _controller,
         onLoaded: (composition) {
           _controller
             ..duration = composition.duration
