@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import 'login_screen.dart';
+import 'home_screen.dart';
 
 
 class LoginAnimations extends StatefulWidget {
@@ -36,8 +38,15 @@ class _LoginAnimationsState extends State<LoginAnimations> with SingleTickerProv
             ..duration = composition.duration
             ..forward().whenComplete(() => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
-            ));
+              MaterialPageRoute(builder: (context) => StreamBuilder<User?>(
+                  stream: FirebaseAuth.instance.authStateChanges(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return const HomePage() ;
+                    } else {
+                      return const LoginScreen();
+                  }}),
+            )));
         })),
     );
   }
