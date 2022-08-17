@@ -24,7 +24,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.green),
+        debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: Colors.lightBlue),
       home: const LoginAnimations()
       );
   }

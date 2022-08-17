@@ -6,11 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tflite/tflite.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  static const String _title = 'Home Page';
+  static const String _title = 'Home';
 
   @override
   Widget build(BuildContext context){
@@ -30,27 +31,47 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
-  File? image;
-  Future pickImage() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
+  late File _image;
+  late List _results;
+  bool imageSelect=false;
+  @override
+  void initState()
+  {
+    super.initState();
+    loadModel();
+  }
+  Future loadModel()
+  async {
+    Tflite.close();
+    String res;
+    res=(await Tflite.loadModel(model: "assets/model.tflite",labels: "assets/labels.txt"))!;
+    print("Models loading status: $res");
   }
 
-  Future pickImageC() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
+  Future imageClassification(File image)
+  async {
+    final List? recognitions = await Tflite.runModelOnImage(
+      path: image.path,
+      numResults: 6,
+      threshold: 0.05,
+      imageMean: 127.5,
+      imageStd: 127.5,
+    );
+    setState(() {
+      _results=recognitions!;
+      _image=image;
+      imageSelect=true;
+    });
+  }
+
+  Future pickImage()
+  async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    File image=File(pickedFile!.path);
+    imageClassification(image);
   }
 
   @override
@@ -63,6 +84,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
+              /*
               MaterialButton(
                   color: Colors.blue,
                   child: const Text(
@@ -89,6 +112,38 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
               const SizedBox(height: 40),
               image != null? Image.file(image!,height: 250,width: 250,): const Text('No Image Selected'),
+              */
+
+              (imageSelect)?Container(
+                margin: const EdgeInsets.all(10),
+                child: Image.file(_image),
+              ):Container(
+                margin: const EdgeInsets.all(10),
+                child: const Opacity(
+                  opacity: 0.8,
+                  child: Center(
+                    child: Text("No image selected"),
+                  ),
+                ),
+              ),
+              SingleChildScrollView(
+                child: Column(
+                  children: (imageSelect)?_results.map((result) {
+                    return Card(
+                      child: Container(
+                        margin: const EdgeInsets.all(10),
+                        child: Text(
+                          "${result['label']} - ${result['confidence'].toStringAsFixed(2)}",
+                          style: const TextStyle(color: Colors.red,
+                              fontSize: 20),
+                        ),
+                      ),
+                    );
+                  }).toList():[],
+
+                ),
+              ),
+
               const Text(
                 'Signed In as',
                 style: TextStyle(fontSize: 16),
@@ -112,6 +167,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ],
           )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: pickImage,
+        tooltip: "Pick Image",
+        child: const Icon(Icons.image),
       ),
     );
   }

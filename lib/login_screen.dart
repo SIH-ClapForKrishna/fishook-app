@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'forgotpassword_screen.dart';
 import 'signup_screen.dart';
 
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  static const String _title = 'Login Screen';
+  static const String _title = 'Login';
 
   @override
   Widget build(BuildContext context){
@@ -69,6 +70,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             TextButton(
               onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()),
+                );
                 //forgot password screen
               },
               child: const Text('Forgot Password', style: TextStyle(fontSize: 18)),
