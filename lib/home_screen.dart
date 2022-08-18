@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -76,6 +77,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context){
+    final items =<Widget>[
+      const Icon(Icons.home,size:30),
+      const Icon(Icons.search,size:30),
+      const Icon(Icons.settings,size:30),
+      const Icon(Icons.person,size:30),
+    ];
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       //appBar: AppBar(title: const Text(_title)),
@@ -172,6 +179,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         onPressed: pickImage,
         tooltip: "Pick Image",
         child: const Icon(Icons.image),
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        items: items,
       ),
     );
   }
