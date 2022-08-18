@@ -17,6 +17,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     return Scaffold(
+
       appBar: AppBar(title: const Text(_title)),
       body: const MyStatefulWidget(),
     );
@@ -45,7 +46,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   async {
     Tflite.close();
     String res;
-    res=(await Tflite.loadModel(model: "assets/model.tflite",labels: "assets/labels.txt"))!;
+    res=(await Tflite.loadModel(model: "assets/fishClassifier.tflite",labels: "assets/fishClassifier.txt"))!;
     print("Models loading status: $res");
   }
 
@@ -85,6 +86,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     ];
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
+      backgroundColor: Colors.lightBlue,
       //appBar: AppBar(title: const Text(_title)),
       body: Padding(
           padding: const EdgeInsets.all(32),
@@ -117,10 +119,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     pickImageC();
                   }
               ),
-              const SizedBox(height: 40),
+
               image != null? Image.file(image!,height: 250,width: 250,): const Text('No Image Selected'),
               */
-
+              const SizedBox(height: 40),
               (imageSelect)?Container(
                 margin: const EdgeInsets.all(10),
                 child: Image.file(_image),
@@ -164,6 +166,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(50),
+                  backgroundColor: Colors.white,
                 ),
                 icon: const Icon(Icons.arrow_back, size: 32),
                 label: const Text(
@@ -176,11 +179,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           )
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
         onPressed: pickImage,
         tooltip: "Pick Image",
         child: const Icon(Icons.image),
       ),
       bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.transparent,
+        height: 50,
         items: items,
       ),
     );
