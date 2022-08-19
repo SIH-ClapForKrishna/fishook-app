@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sih_fishook/navbar.dart';
 
 import 'login_screen.dart';
 import 'home_screen.dart';
@@ -46,7 +47,7 @@ class _LoginAnimationsState extends State<LoginAnimations> with SingleTickerProv
                     } else if (snapshot.hasError) {
                       return const Center(child: Text('Something went wrong!'));
                     } else if (snapshot.hasData) {
-                      return const HomePage() ;
+                      return const NavBar() ;
                     } else {
                       return const LoginScreen();
                   }}),

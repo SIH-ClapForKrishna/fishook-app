@@ -1,7 +1,7 @@
 
 
 import 'dart:io';
-
+import 'settings.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -16,10 +16,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+    return const Scaffold(
 
-      appBar: AppBar(title: const Text(_title)),
-      body: const MyStatefulWidget(),
+      //appBar: AppBar(title: const Text(_title)),
+      body: MyStatefulWidget(),
     );
   }
 }
@@ -76,14 +76,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     imageClassification(image);
   }
 
+
   @override
   Widget build(BuildContext context){
-    final items =<Widget>[
-      const Icon(Icons.home,size:30),
-      const Icon(Icons.search,size:30),
-      const Icon(Icons.settings,size:30),
-      const Icon(Icons.person,size:30),
-    ];
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       backgroundColor: Colors.lightBlue,
@@ -183,11 +178,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         onPressed: pickImage,
         tooltip: "Pick Image",
         child: const Icon(Icons.image),
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
-        height: 50,
-        items: items,
       ),
     );
   }
