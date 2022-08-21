@@ -47,6 +47,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(0),
                 ),
+
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
@@ -58,7 +59,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: TextField(
                 obscureText: true,
                 controller: passwordController,
@@ -68,6 +69,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
               ),
             ),
+
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -76,24 +78,26 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 );
                 //forgot password screen
               },
-              child: const Text('Forgot Password', style: TextStyle(fontSize: 18)),
+              child: const Text('Forgot Password', style: TextStyle(fontSize: 18,),),
             ),
             Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
                   onPressed: signIn,
-                  child: const Text('Login'),
+                  child: const Text('Login',style: TextStyle(fontSize: 20),),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(const Color(0xFF064273))),
                 )
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('Create Account?',style: TextStyle(fontSize: 20)),
+                const Text('Create Account?',style: TextStyle(fontSize: 18)),
                 TextButton(
                   child: const Text(
                     'Sign up',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
                     Navigator.push(

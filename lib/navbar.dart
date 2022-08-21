@@ -1,4 +1,6 @@
 
+import 'package:sih_fishook/search__page.dart';
+
 import 'home_screen.dart';
 import 'settings.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +35,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   final screens = [
     const HomePage(),
-    const HomePage(),
-    SettingsOnePage(),
-    const HomePage(),
+    const SearchPage(),
+    SettingsPage(),
+    //const HomePage(),
   ];
 
   int index =0;
@@ -45,22 +47,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final items =<Widget>[
       const Icon(Icons.home,size:30),
       const Icon(Icons.search,size:30),
-      const Icon(Icons.settings,size:30),
       const Icon(Icons.person,size:30),
+      //const Icon(Icons.person,size:30),
     ];
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
+      //backgroundColor: const Color(0xff064273),
       //appBar: AppBar(title: const Text(_title)),
       body: screens[index],
-      bottomNavigationBar: CurvedNavigationBar(
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        child:CurvedNavigationBar(
+          color: Color(0xff064273),
         key: navigationKey,
+        buttonBackgroundColor: Color(0xff064273),
         backgroundColor: Colors.transparent,
         height: 50,
         index: index,
         items: items,
         onTap: (index) => setState(() => this.index =index),
-        ),
+      ),
+      ),
       );
   }
 

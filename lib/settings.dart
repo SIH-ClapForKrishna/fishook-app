@@ -3,53 +3,39 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_ui_challenges/core/presentation/res/assets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SettingsOnePage extends StatefulWidget {
+class SettingsPage extends StatefulWidget {
   static const String path = "lib/src/pages/settings/settings1.dart";
 
   @override
-  _SettingsOnePageState createState() => _SettingsOnePageState();
+  _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _SettingsOnePageState extends State<SettingsOnePage> {
-  late bool _dark;
+class _SettingsPageState extends State<SettingsPage> {
 
-  @override
-  void initState() {
-    super.initState();
-    _dark = false;
-  }
 
-  Brightness _getBrightness() {
-    return _dark ? Brightness.dark : Brightness.light;
-  }
-
+  static const String _title = 'Dashboard';
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     var emailId= user.email!;
-    return Theme(
-      data: ThemeData(
-        brightness: _getBrightness(),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.lightBlue,
-
+    return Scaffold(
+        //backgroundColor: const Color(0xff064273),
+        appBar: AppBar(title: const Text(_title),),
         body: Stack(
           fit: StackFit.expand,
           children: <Widget>[
             SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const SizedBox(height: 70.0),
+                  //const SizedBox(height: 10.0),
 
                   Card(
                     elevation: 8.0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
-                    color: Colors.blue,
+                    color: const Color(0xff064273),
 
                     child: ListTile(
                       onTap: () {
@@ -60,7 +46,8 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         emailId,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
                       ),
                       trailing: const Icon(
@@ -80,7 +67,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ListTile(
                           leading: const Icon(
                             Icons.lock_outline,
-                            color: Colors.blue,
+                            color: const Color(0xff064273),
                           ),
                           title: const Text("Change Password"),
                           trailing: const Icon(Icons.keyboard_arrow_right),
@@ -92,7 +79,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ListTile(
                           leading: const Icon(
                             FontAwesomeIcons.language,
-                            color: Colors.blue,
+                            color: const Color(0xff064273),
                           ),
                           title: const Text("Change Language"),
                           trailing: const Icon(Icons.keyboard_arrow_right),
@@ -104,7 +91,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ListTile(
                           leading: const Icon(
                             Icons.location_on,
-                            color: Colors.blue,
+                            color: const Color(0xff064273),
                           ),
                           title: const Text("Change Location"),
                           trailing: const Icon(Icons.keyboard_arrow_right),
@@ -121,25 +108,36 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue,
+                      color: const Color(0xff064273),
                     ),
                   ),
                   const SizedBox(height: 20.0),
                   SwitchListTile(
-                    activeColor: Colors.blue,
+                    activeColor: const Color(0xff064273),
                     contentPadding: const EdgeInsets.all(0),
                     value: true,
                     title: const Text("Received notification"),
                     onChanged: (val) {},
                   ),
-                  const SizedBox(height: 60.0),
+                  const SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                      backgroundColor: const Color(0xff064273),
+                    ),
+                    icon: const Icon(Icons.arrow_back, size: 20),
+                    label: const Text(
+                      'Sign Out',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () => FirebaseAuth.instance.signOut(),
+                  ),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
   Container _buildDivider() {
@@ -149,7 +147,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
       ),
       width: double.infinity,
       height: 1.0,
-      color: Colors.grey.shade400,
+      //color: Colors.grey.shade400,
     );
   }
 }

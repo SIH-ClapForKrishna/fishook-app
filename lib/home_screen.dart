@@ -12,13 +12,13 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  static const String _title = 'Home';
+  static const String _title = 'Welcome, User';
 
   @override
   Widget build(BuildContext context){
-    return const Scaffold(
+    return Scaffold(
 
-      //appBar: AppBar(title: const Text(_title)),
+      appBar: AppBar(title: const Text(_title)),
       body: MyStatefulWidget(),
     );
   }
@@ -76,14 +76,24 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     imageClassification(image);
   }
 
+  Future pickImageC()
+  async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? pickedFile = await _picker.pickImage(
+      source: ImageSource.camera,
+    );
+    File image=File(pickedFile!.path);
+    imageClassification(image);
+  }
+
 
   @override
   Widget build(BuildContext context){
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
+      //backgroundColor: Colors.lightBlue,
       //appBar: AppBar(title: const Text(_title)),
-      body: Padding(
+      body: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +134,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ):Container(
                 margin: const EdgeInsets.all(10),
                 child: const Opacity(
-                  opacity: 0.8,
+                  opacity: 1,
                   child: Center(
                     child: Text("No image selected"),
                   ),
@@ -138,8 +148,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         margin: const EdgeInsets.all(10),
                         child: Text(
                           "${result['label']} - ${result['confidence'].toStringAsFixed(2)}",
-                          style: const TextStyle(color: Colors.red,
-                              fontSize: 20),
+                          style: const TextStyle(color: const Color(0xff064273),
+                              fontSize: 18),
                         ),
                       ),
                     );
@@ -147,37 +157,25 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
                 ),
               ),
-
-              const Text(
-                'Signed In as',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                user.email!,
-                style: const TextStyle(fontSize: 20),
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
-                  backgroundColor: Colors.white,
-                ),
-                icon: const Icon(Icons.arrow_back, size: 32),
-                label: const Text(
-                  'Sign Out',
-                  style: TextStyle(fontSize: 24),
-                ),
-                onPressed: () => FirebaseAuth.instance.signOut(),
-              ),
             ],
           )
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
+
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+      children: [ FloatingActionButton(
+        backgroundColor: const Color(0xff064273),
         onPressed: pickImage,
         tooltip: "Pick Image",
         child: const Icon(Icons.image),
+      ),
+        FloatingActionButton(
+          backgroundColor: const Color(0xff064273),
+          onPressed: pickImageC,
+          tooltip: "Pick Image",
+          child: const Icon(Icons.camera_alt),
+        ),
+      ]
       ),
     );
   }

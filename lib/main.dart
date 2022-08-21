@@ -25,7 +25,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.lightBlue),
+      theme: ThemeData(colorScheme: ColorScheme.fromSwatch().copyWith(
+      primary: const Color(0xff064273),),
+      ),
       home: const LoginAnimations()
       );
   }

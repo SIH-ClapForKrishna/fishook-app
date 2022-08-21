@@ -96,17 +96,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: ElevatedButton(
                   onPressed: signUp,
-                  child: const Text('SignUp'),
+                  child: const Text('SignUp', style: TextStyle(fontSize: 20),),
                 )
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('Already Have An Account?',style: TextStyle(fontSize: 20)),
+                const Text('Already Have An Account?',style: TextStyle(fontSize: 18)),
                 TextButton(
                   child: const Text(
                     'Log In',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
                     Navigator.push(
