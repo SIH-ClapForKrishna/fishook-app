@@ -4,6 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'forgotpassword_screen.dart';
 import 'signup_screen.dart';
 
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+TextEditingController phoneController = TextEditingController();
+TextEditingController otpController = TextEditingController();
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -28,8 +32,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +45,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                     children: <Widget>[
-                Image.asset('assets/FisHook-logos_transparent.png', width: 250, height: 250)])),
+                      Image.asset(
+                          'assets/FisHook-logos_transparent.png', width: 250,
+                          height: 250)
+                    ])),
             Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(0),
-                ),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(0),
+            ),
 
             Container(
               padding: const EdgeInsets.all(10),
@@ -69,31 +75,68 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
               ),
             ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                controller: phoneController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Phone Number',
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                controller: otpController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'OTP',
+                ),
+              ),
+            ),
 
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const ForgotPasswordScreen()),
                 );
                 //forgot password screen
               },
-              child: const Text('Forgot Password', style: TextStyle(fontSize: 18,),),
+              child: const Text(
+                'Forgot Password', style: TextStyle(fontSize: 18,),),
             ),
             Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
                   onPressed: signIn,
-                  child: const Text('Login',style: TextStyle(fontSize: 20),),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(const Color(0xFF064273))),
+                      backgroundColor: MaterialStateProperty.all(
+                          const Color(0xFF064273))),
+                  child: const Text('Login with Email', style: TextStyle(fontSize: 20),),
+                ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: ElevatedButton(
+                  onPressed: phoneNo,
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          const Color(0xFF064273))),
+                  child: const Text('Login with Phone', style: TextStyle(fontSize: 20),),
                 )
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('Create Account?',style: TextStyle(fontSize: 18)),
+                const Text('Create Account?', style: TextStyle(fontSize: 18)),
                 TextButton(
                   child: const Text(
                     'Sign up',
@@ -102,7 +145,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const SignupScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const SignupScreen()),
                     );
                     //signup screen
                   },
@@ -112,6 +156,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ],
         ));
   }
+
   Future signIn() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -122,4 +167,28 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       print(e);
     }
   }
-}
+
+  Future phoneNo() async {
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: "+91${phoneController.text.trim()}",
+        timeout: const Duration(seconds: 60),
+        verificationCompleted: (PhoneAuthCredential credential) {},
+        verificationFailed: (FirebaseAuthException e) {
+          if (e.code == 'invalid-phone-number') {
+            print('The provided phone number is not valid.');
+          }
+        },
+        codeSent: (String verificationId, int? resendToken) async{
+          String smsCode = otpController.text.trim();
+
+          PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          // Auto-resolution timed out...
+        },
+      );
+    }
+  }

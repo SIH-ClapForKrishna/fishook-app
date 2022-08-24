@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_ui_challenges/core/presentation/res/assets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'login_screen.dart';
 
 class SettingsPage extends StatefulWidget {
   static const String path = "lib/src/pages/settings/settings1.dart";
@@ -17,7 +18,15 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
-    var emailId= user.email!;
+    var userId = "";
+    if (user.phoneNumber == null)
+      {
+        userId = user.email as String;
+      }
+    else
+      {
+        userId = user.phoneNumber as String;
+      }
     return Scaffold(
         //backgroundColor: const Color(0xff064273),
         appBar: AppBar(title: const Text(_title),),
@@ -43,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       },
 
                       leading: Text(
-                        emailId,
+                        userId,
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -67,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ListTile(
                           leading: const Icon(
                             Icons.lock_outline,
-                            color: const Color(0xff064273),
+                            color: Color(0xff064273),
                           ),
                           title: const Text("Change Password"),
                           trailing: const Icon(Icons.keyboard_arrow_right),
@@ -79,7 +88,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ListTile(
                           leading: const Icon(
                             FontAwesomeIcons.language,
-                            color: const Color(0xff064273),
+                            color: Color(0xff064273),
                           ),
                           title: const Text("Change Language"),
                           trailing: const Icon(Icons.keyboard_arrow_right),
@@ -91,7 +100,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ListTile(
                           leading: const Icon(
                             Icons.location_on,
-                            color: const Color(0xff064273),
+                            color: Color(0xff064273),
                           ),
                           title: const Text("Change Location"),
                           trailing: const Icon(Icons.keyboard_arrow_right),
@@ -108,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xff064273),
+                      color: Color(0xff064273),
                     ),
                   ),
                   const SizedBox(height: 20.0),
@@ -123,7 +132,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
-                      backgroundColor: const Color(0xff064273),
+                      //backgroundColor: const Color(0xff064273),
                     ),
                     icon: const Icon(Icons.arrow_back, size: 20),
                     label: const Text(
