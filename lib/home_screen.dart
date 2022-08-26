@@ -1,6 +1,9 @@
-
+import 'dart:developer';
 
 import 'dart:io';
+import 'dart:math';
+
+import 'home_screen2.dart';
 import 'settings.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,17 +12,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
+dynamic temp;
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  static const String _title = 'Welcome, User';
+  static const String _title = 'Fish Detection';
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
 
       appBar: AppBar(title: const Text(_title)),
-      body: MyStatefulWidget(),
+      body: const MyStatefulWidget(),
     );
   }
 }
@@ -35,23 +40,25 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   late File _image;
   late List _results;
-  bool imageSelect=false;
+  bool imageSelect = false;
+  dynamic temp;
+
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
     loadModel();
   }
-  Future loadModel()
-  async {
+
+  Future loadModel() async {
     Tflite.close();
     String res;
-    res=(await Tflite.loadModel(model: "assets/fishClassifier.tflite",labels: "assets/fishClassifier.txt"))!;
+    res = (await Tflite.loadModel(model: "assets/fishDetection.tflite",
+        labels: "assets/fishDetection.txt"))!;
     print("Models loading status: $res");
   }
 
-  Future imageClassification(File image)
-  async {
+
+  Future imageClassification(File image) async {
     final List? recognitions = await Tflite.runModelOnImage(
       path: image.path,
       numResults: 6,
@@ -60,35 +67,33 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       imageStd: 127.5,
     );
     setState(() {
-      _results=recognitions!;
-      _image=image;
-      imageSelect=true;
+      _results = recognitions!;
+      _image = image;
+      imageSelect = true;
     });
   }
 
-  Future pickImage()
-  async {
+
+  Future pickImage() async {
     final ImagePicker _picker = ImagePicker();
     final XFile? pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
     );
-    File image=File(pickedFile!.path);
+    File image = File(pickedFile!.path);
     imageClassification(image);
   }
 
-  Future pickImageC()
-  async {
+  Future pickImageC() async {
     final ImagePicker _picker = ImagePicker();
     final XFile? pickedFile = await _picker.pickImage(
       source: ImageSource.camera,
     );
-    File image=File(pickedFile!.path);
+    File image = File(pickedFile!.path);
     imageClassification(image);
   }
 
-
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       //backgroundColor: Colors.lightBlue,
@@ -128,10 +133,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               image != null? Image.file(image!,height: 250,width: 250,): const Text('No Image Selected'),
               */
               const SizedBox(height: 40),
-              (imageSelect)?Container(
+              (imageSelect) ? Container(
                 margin: const EdgeInsets.all(10),
                 child: Image.file(_image),
-              ):Container(
+              ) : Container(
                 margin: const EdgeInsets.all(10),
                 child: const Opacity(
                   opacity: 1,
@@ -142,18 +147,27 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
               SingleChildScrollView(
                 child: Column(
-                  children: (imageSelect)?_results.map((result) {
+                  children: (imageSelect) ? _results.map((result) {
+                    // if (result['label'] == "fish") {
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(builder: (
+                    //         context) => const HomePage2()),
+                    //   );
+                    // }
+                    temp = result;
                     return Card(
                       child: Container(
                         margin: const EdgeInsets.all(10),
                         child: Text(
-                          "${result['label']} - ${result['confidence'].toStringAsFixed(2)}",
+                          "${result["label"]}: ${result["confidence"]
+                              .toStringAsFixed(2)}",
                           style: const TextStyle(color: const Color(0xff064273),
                               fontSize: 18),
                         ),
                       ),
                     );
-                  }).toList():[],
+                  }).toList() : [],
 
                 ),
               ),
@@ -162,25 +176,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       ),
 
       floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-      children: [ FloatingActionButton(
-        backgroundColor: const Color(0xff064273),
-        onPressed: pickImage,
-        tooltip: "Pick Image",
-        child: const Icon(Icons.image),
-      ),
-        FloatingActionButton(
-          backgroundColor: const Color(0xff064273),
-          onPressed: pickImageC,
-          tooltip: "Pick Image",
-          child: const Icon(Icons.camera_alt),
-        ),
-      ]
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [ FloatingActionButton(
+            backgroundColor: const Color(0xff064273),
+            onPressed: pickImage,
+            tooltip: "Pick Image",
+            child: const Icon(Icons.image),
+          ),
+            FloatingActionButton(
+              backgroundColor: const Color(0xff064273),
+              onPressed: pickImageC,
+              tooltip: "Pick Image",
+              child: const Icon(Icons.camera_alt),
+            ),
+          ]
       ),
     );
   }
-
 }
-
-
-

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:translator/translator.dart';
+
+import 'package:transliteration/response/transliteration_response.dart';
+import 'package:transliteration/transliteration.dart';
+
 
 import 'forgotpassword_screen.dart';
 import 'signup_screen.dart';
@@ -33,13 +38,31 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
 
+  // void translate()
+  // {
+  //   translator.translate(text, to: "hi").then((output) {
+  //     setState(() {
+  //       text=output as String;
+  //     });
+  //   });
+  // }
+
 
   @override
+
   Widget build(BuildContext context) {
+
     return Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
+            
+            // Text(text,style: const TextStyle(fontSize: 20),),
+            // TextButton(onPressed: () {
+            //   translate();
+            // }, child: const Text("Translate"),),
+
+
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
@@ -95,6 +118,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
               ),
             ),
+
+            
 
             TextButton(
               onPressed: () {

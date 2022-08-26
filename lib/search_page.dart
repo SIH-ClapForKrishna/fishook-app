@@ -34,7 +34,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       appBar: AppBar(title: const Text(_title),),
       body: const Align(
         alignment: Alignment.center,
-        child: Text("Work Under Progress!!",
+        child: Text("Coming Soon!",
         style: TextStyle(fontSize: 30,color: Colors.red),
       ),
       ),
