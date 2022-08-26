@@ -96,18 +96,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
 
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ForgotPasswordScreen()),
-                );
-                //forgot password screen
-              },
-              child: const Text(
-                'Forgot Password', style: TextStyle(fontSize: 18,),),
-            ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => const ForgotPasswordScreen()),
+            //     );
+            //     //forgot password screen
+            //   },
+            //   child: const Text(
+            //     'Forgot Password', style: TextStyle(fontSize: 18,),),
+            // ),
             Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
