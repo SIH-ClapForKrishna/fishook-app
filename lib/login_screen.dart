@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'forgotpassword_screen.dart';
 import 'signup_screen.dart';
 
+
 TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 TextEditingController phoneController = TextEditingController();
@@ -31,7 +32,6 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-
 
 
   @override

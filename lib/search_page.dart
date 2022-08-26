@@ -1,9 +1,13 @@
-
 import 'home_screen.dart';
 import 'settings.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
+import 'package:firebase_storage/firebase_storage.dart';
+import 'home_screen.dart';
+
+String url = '';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -32,16 +36,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(title: const Text(_title),),
-      body: const Align(
-        alignment: Alignment.center,
-        child: Text("Work Under Progress!!",
-        style: TextStyle(fontSize: 30,color: Colors.red),
-      ),
-      ),
+      body:  Image.network(fetchImage()),
       );
   }
 
-}
+    fetchImage() async {
+    final ref = FirebaseStorage.instance.ref().child('kek.jpg');
+    var url = await ref.getDownloadURL();
+    print(url);
+    return url;
 
+  }
+
+}
 
 

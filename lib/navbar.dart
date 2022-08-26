@@ -1,7 +1,8 @@
-
+import 'package:sih_fishook/data_analysis.dart';
 import 'package:sih_fishook/search_page.dart';
 
 import 'home_screen.dart';
+import 'home_screen2.dart';
 import 'settings.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,7 +36,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   final screens = [
     const HomePage(),
+    const HomePage2(),
     const SearchPage(),
+    const DataAnalysis(),
     SettingsPage(),
     //const HomePage(),
   ];
@@ -46,7 +49,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context){
     final items =<Widget>[
       const Icon(Icons.home,size:30),
+      const Icon(Icons.panorama_fish_eye,size:30),
       const Icon(Icons.search,size:30),
+      const Icon(Icons.analytics,size:30),
       const Icon(Icons.person,size:30),
       //const Icon(Icons.person,size:30),
     ];
@@ -61,19 +66,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         ),
         child:CurvedNavigationBar(
           color: Color(0xff064273),
-        key: navigationKey,
-        buttonBackgroundColor: Color(0xff064273),
-        backgroundColor: Colors.transparent,
-        height: 50,
-        index: index,
-        items: items,
-        onTap: (index) => setState(() => this.index =index),
+          key: navigationKey,
+          buttonBackgroundColor: Color(0xff064273),
+          backgroundColor: Colors.transparent,
+          height: 50,
+          index: index,
+          items: items,
+          onTap: (index) => setState(() => this.index =index),
+        ),
       ),
-      ),
-      );
+    );
   }
 
 }
-
-
-
